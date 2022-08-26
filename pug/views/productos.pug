@@ -1,0 +1,9 @@
+html 
+    head 
+        title = pug
+    body
+        h1="Productos"
+        ul
+            each producto in ListProduct
+                li= "Nombre: " + producto.title
+                li= "Precio: " + producto.price
