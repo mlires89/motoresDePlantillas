@@ -4,13 +4,13 @@ const path = require('path')
 const app = express()
 const productos = Router()
 const {engine} = require('express-handlebars')
-app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(express.urlencoded({extended : true}))
 
 app.engine('handlebars', engine())
 app.set('view engine', 'handlebars')
 app.set('views' , './views')
+
 /***********************Creo la lista de productos**************************/
 
 const listProducts = [
@@ -36,38 +36,6 @@ const listProducts = [
 
 /******************* Defino las funciones **********************************/
 
-const getById =number=>{
-  const founded = listProducts.find( element => element.id == number) || null;
-  return founded ;
-}
-
-const deleteById = number=>{
-        
-const index = listProducts.findIndex(element => element.id == number);
- if (index == -1) {
-      console.log ('No se encontró el elemento')
-  }
-  
-      const deletedProduct = listProducts[index]
-      listProducts.splice(index, 1)
-  
-  return deletedProduct
-}
-
-const updateById = (number , updatedProduct)=>{        
-      const productToUpdate ={
-        id: number,
-        title : updatedProduct.title,
-        price : updatedProduct.price,
-        thumbnail : updatedProduct.thumbnail  
-      }
-
-      const index = listProducts.findIndex(element => element.id == number);
-      listProducts[index] = productToUpdate        
-  
-
-     return productToUpdate
-}
 
 const save = (object)=>{       
   let maxId = 0;
@@ -94,49 +62,6 @@ const getProducts = (req, res) =>{
 
 
 
-
-
-/***************GET BY ID****************/
-  const getProductsById = async (req, res) =>{
-    try{
-         let id = req.params.id
-         const productoEncontrado = getById(id)
-          if( !productoEncontrado ){
-              res.status(400).json({error : 'producto no encontrado'})
-          }
-          res.json({producto:productoEncontrado })
-        } catch (error) {
-           return res.send(error)
-    }
-  }
-
-
-/****************DELETE BY ID****************/
-  const delProduct = async (req, res) =>{
-    try{
-          let id = req.params.id
-          const productoEliminado =deleteById(id)
-          res.json({producto: productoEliminado})
-        }catch (error) {
-              return res.send(error)
-    }
-  }
-
-
-/***************UPDATE****************/
-  const putProduct = async (req, res) =>{
-    try{
-      let id = req.params.id 
-      const { producto } = req.body;
-      const productoActualizado = updateById(id , producto) 
-      res.json({producto: productoActualizado})
-         
-        }catch (error) {
-              return res.send(error)
-    }
-  }
-
-
 /***************POST*****************/
     const postProduct = (req, res) =>{
       try{
@@ -145,12 +70,12 @@ const getProducts = (req, res) =>{
           title,
           price,
           thumbnail
-        }  
+          }  
         save(productoNuevo)  
         res.json({"producto agregado" : productoNuevo})
           }catch (error) {
                 return res.send(error)
-      }
+      }      
     }
 
 /**************************************************************** */
@@ -159,17 +84,14 @@ productos.get('/', (req,res)=>{
   res.render('productos',{ListProduct: listProducts})
 })
 
-productos.get('/form', (req,res)=>{
+app.get('/form', (req,res)=>{
   res.render('form')
 })
 
-productos.get('/:id',getProductsById)
-productos.post('/', postProduct)
-productos.put('/:id' , putProduct)
-productos.delete('/:id', delProduct)
-
 
 app.use('/api/productos' , productos)
+productos.post('/', postProduct)
+
 
 const PORT = 3000
 app.listen(PORT, ()=>{
