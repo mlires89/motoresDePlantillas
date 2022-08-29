@@ -1,0 +1,35 @@
+
+<html lang='en'>
+    <%- include('partials/head') %>
+    <body>       
+        <h1>Productos</h1> 
+        <div class='container mt-5'>
+            <div class='row'>
+                <div class='col'>
+                    <table class='table'>
+                        <thead class='table-dark'>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                            <th>Imagen</th>
+                        </thead>
+                        <tbody>
+        
+                            <% ListProduct.forEach(producto => { %>
+                                <tr>
+                                    <td> <%= producto.id %> </td>
+                                    <td> <%= producto.name %> </td>
+                                    <td> <%= producto.price %> </td>
+                                    <td> <img src="<%= producto.thumbnail %>" height="30px"> </td>
+                                </tr>
+                            <% }) %>
+        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    <%- include('partials/footer') %>
+    </body>
+</html>
+
