@@ -1,10 +1,10 @@
 const express = require ('express')
 const {Router} = express
+const path = require('path')
 const app = express()
 const productos = Router()
-const index = require ('./index')
 const {engine} = require('express-handlebars')
-app.use(express.static('./public'))
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(express.urlencoded({extended : true}))
 
@@ -31,18 +31,6 @@ const listProducts = [
     price:345.67,
     thumbnail:"https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png",
     id:3
-  },
-  {
-    title:"papa",
-    price:"1200",
-    thumbnail:"https://url",
-    id:4
-  },
-  {
-    title:"pera",
-    price:"40",
-    thumbnail:"https://url.img",
-    id:5
   }
 ]
 
@@ -171,6 +159,10 @@ productos.get('/', (req,res)=>{
   res.render('productos',{ListProduct: listProducts})
 })
 
+productos.get('/form', (req,res)=>{
+  res.render('form')
+})
+
 productos.get('/:id',getProductsById)
 productos.post('/', postProduct)
 productos.put('/:id' , putProduct)
@@ -178,7 +170,7 @@ productos.delete('/:id', delProduct)
 
 
 app.use('/api/productos' , productos)
-app.use('/', index)
+
 const PORT = 3000
 app.listen(PORT, ()=>{
     console.log('server on')
