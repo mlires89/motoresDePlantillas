@@ -1,9 +1,22 @@
 html 
-    head 
-        title = pug
+    include partials/head.pug    
     body
-        h1="Productos"
-        ul
-            each producto in ListProduct
-                li= "Nombre: " + producto.title
-                li= "Precio: " + producto.price
+        h1="Productos"            
+        div(class='container mt-5')
+            div(class='row')
+                div(class='col')
+                    table(class='table')
+                        thead(class='table-dark')
+                            th  ID
+                            th Nombre
+                            th Precio
+                            th Imagen         
+                        tbody
+                            each producto in ListProduct
+                                tr 
+                                    td=producto.id
+                                    td=producto.title
+                                    td=producto.price
+                                    td
+                                        img(src=producto.thumbnail height="30px")       
+    include partials/footer.pug           

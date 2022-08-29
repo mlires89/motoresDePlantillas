@@ -6,7 +6,6 @@ const productos = Router()
 const {engine} = require('express-handlebars')
 app.use(express.json())
 app.use(express.urlencoded({extended : true}))
-
 app.engine('handlebars', engine())
 app.set('view engine', 'handlebars')
 app.set('views' , './views')
@@ -36,7 +35,6 @@ const listProducts = [
 
 /******************* Defino las funciones **********************************/
 
-
 const save = (object)=>{       
   let maxId = 0;
   listProducts.forEach(element => {
@@ -45,21 +43,6 @@ const save = (object)=>{
   object.id = (maxId + 1);
   listProducts.push(object);   
 }
-
-
-
-/**************GET PRODUCTS********************/
-const getProducts = (req, res) =>{
-    try{
-      res.json({ 
-                productos:listProducts
-               });
-    } catch (error) {
-        res.send(error)
-    }
-  }
-
-
 
 
 /***************POST*****************/

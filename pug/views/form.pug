@@ -1,0 +1,18 @@
+html
+    include partials/head.pug  
+    body
+        div(class='container mt-5')
+            div(class='row')
+                div(class='col')
+                    form(action="api/productos" method="post")  
+                        div(class='mb-3')
+                            label(class='form-label') Nombre del Producto
+                            input(class='form-control' id='title' name="title")
+                        div(class='mb-3')
+                            label(class='form-label') Precio
+                            input(class='form-control' id='price' name="price")
+                        div(class='mb-3')
+                            label(class='form-label') URL de la imagen
+                            input(class='form-control' id='thumbnail' name="thumbnail")
+                        button(type='submit' class='btn btn-primary') Guardar
+    include partials/footer.pug  
